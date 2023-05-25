@@ -5,6 +5,8 @@ USER gitpod
 RUN sudo apt-get -q update \
     && sudo apt-get install -yq \
         build-essential \
+        flatpak \
+        flatpak-builder \
         libgl1-mesa-dev \
         libgstreamer-gl1.0-0 \
         libpulse-dev \
@@ -45,3 +47,7 @@ ARG QIF_VERSION=4.5
 ARG QIF_DIR=/opt/qif
 RUN sudo aqt install-tool --outputdir ${QIF_DIR} linux desktop tools_ifw
 ENV QIF_BIN_DIR=${QIF_DIR}/Tools/QtInstallerFramework/${QIF_VERSION}/bin
+
+RUN sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
+    sudo flatpak install flathub org.kde.Platform//6.4 && \
+    sudo flatpak install flathub org.kde.Sdk//6.4

@@ -4,6 +4,41 @@ name: 'Deploy workflow'
 on: [push]
 
 jobs:
+  Build-Linux-Flatpak:
+    name: "Build-Linux-Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:kde-6.4
+      options: --privileged
+    strategy:
+      matrix:
+        arch: 
+        - x86_64
+        - aarch64
+      fail-fast: false # Don't fail the whole workflow if one architecture fails
+    steps:
+    - name: 'Get sources'
+      uses: actions/checkout@v3
+    - name: 'Install Docker'
+      run: dnf -y install docker # Docker is required by the docker/setup-qemu-action which enables emulation
+    - name: 'Set up QEMU'
+      id: qemu
+      uses: docker/setup-qemu-action@v2
+      with:
+        platforms: arm64
+    - name: 'Build Flatpak bundle'
+      uses: flatpak/flatpak-github-actions/flatpak-builder@v6.1
+      with:
+        bundle: AmneziaVPN.flatpak
+        manifest-path: org.amnezia.AmneziaVPN.yml
+        arch: ${{ matrix.arch }}
+    - name: 'Upload Flatpak bundle'
+      uses: actions/upload-artifact@v3
+      with:
+        name: AmneziaVPN.flatpak
+        path: AmneziaVPN.flatpak
+        retention-days: 7
+
   Build-Linux-Ubuntu:
     name: 'Build-Linux-Ubuntu'
     runs-on: ubuntu-latest
