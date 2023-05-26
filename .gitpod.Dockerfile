@@ -49,5 +49,5 @@ RUN sudo aqt install-tool --outputdir ${QIF_DIR} linux desktop tools_ifw
 ENV QIF_BIN_DIR=${QIF_DIR}/Tools/QtInstallerFramework/${QIF_VERSION}/bin
 
 RUN sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
-    sudo flatpak install flathub org.kde.Platform//6.4 && \
-    sudo flatpak install flathub org.kde.Sdk//6.4
+    sudo flatpak install -y flathub org.kde.Platform//6.4 && \
+    sudo flatpak install -y flathub org.kde.Sdk//6.4
