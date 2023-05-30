@@ -19,6 +19,9 @@ jobs:
     steps:
     - name: 'Get sources'
       uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+        fetch-depth: 10
     - name: 'Install Docker'
       run: dnf -y install docker # Docker is required by the docker/setup-qemu-action which enables emulation
     - name: 'Set up QEMU'
