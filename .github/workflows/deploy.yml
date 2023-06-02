@@ -23,8 +23,10 @@ jobs:
         submodules: 'true'
         fetch-depth: 10
     - name: 'Install Docker'
+      if: ${{ matrix.arch != 'x86_64' }}
       run: dnf -y install docker # Docker is required by the docker/setup-qemu-action which enables emulation
     - name: 'Set up QEMU'
+      if: ${{ matrix.arch != 'x86_64' }}
       id: qemu
       uses: docker/setup-qemu-action@v2
       with:
