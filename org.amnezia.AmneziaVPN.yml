@@ -67,12 +67,10 @@ modules:
     - type: archive
       url: https://github.com/openssl/openssl/releases/download/openssl-3.1.0/openssl-3.1.0.tar.gz
       sha256: aaa925ad9828745c4cad9d9efeb273deca820f2cdcf2c3ac7d7c1212b7c497b4
-    buildsystem: simple
-    build-commands:
-    - ./config --prefix=$FLATPAK_DEST
-    - make -j$FLATPAK_BUILDER_N_JOBS
-    # - make test
-    - make install
+    - type: shell
+      commands:
+      - ln -s config configure
+    install-rule: install_sw
   - name: libsecret
     sources:
     - type: git
