@@ -78,33 +78,17 @@ modules:
     - type: git
       url: https://gitlab.gnome.org/GNOME/libsecret.git
       tag: '0.20.5'
-    buildsystem: simple
-    build-commands:
-    - meson _build -Dgtk_doc=false -Dprefix=$FLATPAK_DEST
-    - ninja -C _build
-    - ninja -C _build install
-    modules:
-    - name: Vala
-      sources:
-      - type: archive
-        url: https://download.gnome.org/sources/vala/0.56/vala-0.56.7.tar.xz
-        sha256: 3d39c7596d5fa9ae8bfeae476669f811f7057b7f7b9308478a27b68443d8b003
-      buildsystem: simple
-      build-commands:
-      - ./configure --prefix=$FLATPAK_DEST
-      - make -j$FLATPAK_BUILDER_N_JOBS
-      - make install
-      modules:
-      - name: graphviz
-        sources:
-        - type: archive
-          url: https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/8.0.5/graphviz-8.0.5.tar.gz
-          sha256: bfe1a7a68613875ca086b8c7d4890ca7e2a9ce5d125c0a0c0e95e8a66df5d0ef
-        buildsystem: simple
-        build-commands:
-        - ./configure --prefix=$FLATPAK_DEST
-        - make -j$FLATPAK_BUILDER_N_JOBS
-        - make install
+    buildsystem: meson
+    config-opts:
+    - -Dmanpage=false
+    - -Dvapi=false
+    - -Dgtk_doc=false
+    - -Dintrospection=false
+    cleanup:
+    - /bin
+    - /include
+    - /lib/pkgconfig
+    - /share/man
   - name: Kerberos
     sources:
     - type: archive
