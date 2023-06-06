@@ -93,8 +93,3 @@ modules:
       url: http://web.mit.edu/kerberos/dist/krb5/1.20/krb5-1.20.1.tar.gz
       sha256: 704aed49b19eb5a7178b34b2873620ec299db08752d6a8574f95d41879ab8851
     subdir: src
-    buildsystem: simple
-    build-commands:
-    - ./configure --prefix=$FLATPAK_DEST
-    - make -j$FLATPAK_BUILDER_N_JOBS
-    - make install
